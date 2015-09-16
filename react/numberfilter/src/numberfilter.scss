@@ -1,0 +1,117 @@
+$rangeFilter-width: 380px;
+$inputpresenter-height: 50px;
+$padding: 10px;
+$border-stroke-width: 2px;
+
+$c-range-container-bg: #4D5967;
+$c-range-container-border: #29323D;
+$c-range-container-input-bg: #3F4751;
+$c-range-container-input-border: #5B7486;
+$c-range-highlight: #DEBB1E;
+
+$font-family: Helvetica, sans-serif;
+
+.rangeFilter {
+  width: $rangeFilter-width;
+  -webkit-font-smoothing: antialiased;
+  font-family: $font-family;
+  h3 {
+    margin: 4px 0;
+  }
+  .inputContainer {
+    display: block;
+    position: relative;
+    .inputPresenter {
+      display: block;
+      height: $inputpresenter-height;
+      border: 1px solid #ccc;
+      background-color: $c-range-container-input-bg;
+      .btn-toggle {
+        cursor: pointer;
+        position: absolute;
+        right: 11px;
+        top: 17px;
+        text-align: center;
+        color: white;
+        transition: 0.2s all;
+        &:hover {
+          color: #3B99FC;
+          text-shadow: 0px 1px #000;
+        }
+      }
+    }
+    .boundsPresenter {
+      color: $c-range-highlight;
+      line-height: $inputpresenter-height;
+      padding-left: 10px;
+      font-size: 1.3rem;
+      .btn-delete {
+        cursor: pointer;
+        margin-left: 10px;
+        border: none;
+        outline: none;
+        background-color: $c-range-container-input-bg;
+        color: $c-range-highlight;
+        font-size: 1rem;
+        font-weight: 900;
+      }
+    }
+    .rangeCols {
+      .triangle {
+        position: absolute;
+        right: 18px;
+        top: -15px;
+        width: 0;
+        height: 0;
+        border-style: solid;
+        border-width: 0 0 15px 15px;
+        border-color: transparent transparent $c-range-container-bg transparent;
+      }
+      position: relative;
+      padding: $padding;
+      margin-top: 15px;
+      border: $border-stroke-width solid $c-range-container-border;
+      background-color: $c-range-container-bg;
+      color: white;
+      font-size: 0.9rem;
+      .rangeCol {
+        position: relative;
+        display: inline-block;
+        width: 46%;
+        .checkbox-group {
+          cursor: pointer;
+        }
+        input[type="checkbox"] {
+          margin-right: $padding;
+        }
+        input[type="number"] {
+          display: block;
+          width: 90%;
+          padding: 5%;
+          margin-top: 5px;
+          border: 1px solid $c-range-container-input-bg;
+          background-color: $c-range-container-input-bg;
+          color: white;
+          font-size: 1.1rem;
+          transition: 0.4s border-color;
+          &:disabled {
+            cursor: not-allowed;
+            background-color: lighten($c-range-container-input-bg, 10%);
+          }
+          &:focus {
+            outline: none;
+            border-color: $c-range-container-input-border;
+          }
+        }
+      }
+      .warning {
+        display: inline-block;
+        height: 0;
+        width: 8%;
+        color: $c-range-highlight;
+        text-align: center;
+        bottom: $padding;
+      }
+    }
+  }
+}

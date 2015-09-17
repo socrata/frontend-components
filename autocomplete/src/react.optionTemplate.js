@@ -20,4 +20,9 @@ class OptionTemplate extends React.Component{
 
 };
 
+OptionTemplate.propTypes = {
+  isSelected: React.PropTypes.bool,
+  data: React.PropTypes.object
+};
+
 export default OptionTemplate;

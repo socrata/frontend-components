@@ -113,4 +113,20 @@ class SocrataTypeahead extends React.Component {
   }
 }
 
+SocrataTypeahead.propTypes = {
+  placeholder: React.PropTypes.string,
+  inputValue: React.PropTypes.string,
+  source: React.PropTypes.string.isRequired,
+  viewId: React.PropTypes.string.isRequired,
+  searchColumn: React.PropTypes.string.isRequired,
+  suggestionLabel: React.PropTypes.string.isRequired,
+  suggestionData: React.PropTypes.string.isRequired,
+  size: React.PropTypes.number.isRequired
+};
+
+SocrataTypeahead.defaultProps = {
+  placeholder: 'Search...',
+  inputValue: ''
+};
+
 export default SocrataTypeahead;

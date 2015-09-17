@@ -271,9 +271,7 @@
 	        currentQueue = queue;
 	        queue = [];
 	        while (++queueIndex < len) {
-	            if (currentQueue) {
-	                currentQueue[queueIndex].run();
-	            }
+	            currentQueue[queueIndex].run();
 	        }
 	        queueIndex = -1;
 	        len = queue.length;
@@ -325,6 +323,7 @@
 	    throw new Error('process.binding is not supported');
 	};
 
+	// TODO(shtylman)
 	process.cwd = function () { return '/' };
 	process.chdir = function (dir) {
 	    throw new Error('process.chdir is not supported');
@@ -20603,6 +20602,22 @@
 	  return SocrataTypeahead;
 	})(React.Component);
 
+	SocrataTypeahead.propTypes = {
+	  placeholder: React.PropTypes.string,
+	  inputValue: React.PropTypes.string,
+	  source: React.PropTypes.string.isRequired,
+	  viewId: React.PropTypes.string.isRequired,
+	  searchColumn: React.PropTypes.string.isRequired,
+	  suggestionLabel: React.PropTypes.string.isRequired,
+	  suggestionData: React.PropTypes.string.isRequired,
+	  size: React.PropTypes.number.isRequired
+	};
+
+	SocrataTypeahead.defaultProps = {
+	  placeholder: 'Search...',
+	  inputValue: ''
+	};
+
 	exports['default'] = SocrataTypeahead;
 	module.exports = exports['default'];
 
@@ -21372,6 +21387,11 @@
 	})(_react2['default'].Component);
 
 	;
+
+	OptionTemplate.propTypes = {
+	  isSelected: _react2['default'].PropTypes.bool,
+	  data: _react2['default'].PropTypes.object
+	};
 
 	exports['default'] = OptionTemplate;
 	module.exports = exports['default'];

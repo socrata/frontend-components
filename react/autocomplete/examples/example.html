@@ -1,0 +1,40 @@
+<!doctype html>
+  <head>
+    <title>Socrata React Autocomplete Component</title>
+    <link rel="stylesheet" href="./app.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+  </head>
+  <body>
+    <div class="container">
+      <h1>Socrata React Autocomplete Component</h1>
+      <h2>
+        <a href="http://github.com/socrata/frontend-visualizations">View project on GitHub</a>
+      </h2>
+
+      <div id="app" style="width:400px;"></div>
+
+      <div class="hint">
+        The example autocomplete React component is rendered above.
+        <div class="footer">
+          Copyright &copy; SOCRATA 2015. MIT Licensed.
+        </div>
+      </div>
+    </div>
+    <script src="../node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="../node_modules/react/dist/react.min.js"></script>
+    <script src="../build/react.socrata.bundle.autocomplete.js"></script>
+    <script>
+      var config = {
+        parentId: 'app',
+        placeholder: 'Search',
+        source: 'https://opendata-demo.test-socrata.com/views/',
+        viewId: '3q2y-nhw8',
+        searchColumn: 'job_title',
+        suggestionLabel: 'text',
+        suggestionData: 'score',
+        size: 10
+      }
+      SocrataAutocomplete(config)
+    </script>
+  </body>
+</html>

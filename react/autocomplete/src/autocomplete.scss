@@ -1,0 +1,83 @@
+// Autocomplete Component Variables
+$sc-autocomplete-highlight: #0097cf;
+
+$sc-autocomplete-border-radius: 5px;
+$sc-autocomplete-border-neutral: #ccc;
+$sc-autocomplete-border-highlight: $sc-autocomplete-highlight;
+
+$sc-autocomplete-textblack: #292f33;
+$sc-autocomplete-fontfamily: "Helvetica Neue", Roboto, "Segoe UI", Calibri, sans-serif;
+$sc-autocomplete-fontsize: 1.1rem;
+$sc-autocomplete-lineheight: 140%;
+
+$sc-autocomplete-box-shadow: 0 5px 10px rgba(0,0,0,.2);
+
+$sc-autcomplete-padding: 2%;
+
+$sc-autocomplete-clearbtn-color: #D2D0D0;
+$sc-autocomplete-clearbtn-color-hover: darken(#D2D0D0, 30%);
+
+// Autocomplete Component Styles
+.scompAutocompleteContainer {
+  position:relative;
+  font-size: $sc-autocomplete-fontsize;
+  line-height: $sc-autocomplete-lineheight;
+  font-family: $sc-autocomplete-fontfamily;
+  .react-typeahead-container {
+    .react-typeahead-input-container {
+      display: block;
+      .react-typeahead-input {
+        width: 95%;
+        background-color: #fff;
+        padding: $sc-autcomplete-padding;
+        border-radius: $sc-autocomplete-border-radius;
+        outline: none;
+        border: 2px solid $sc-autocomplete-border-neutral;
+        transition: all 0.3s;
+        font-size: $sc-autocomplete-fontsize;
+        color: $sc-autocomplete-textblack;
+        &:focus {
+          border: 2px solid $sc-autocomplete-border-highlight;
+        }
+      }
+    }
+    .react-typeahead-options {
+      margin: 1% 0 0;
+      padding: 0;
+      overflow: hidden;
+      z-index: 10000;
+      list-style: none;
+      background-color: #fff;
+      border: 1px solid rgba(0, 0, 0, 0.2);
+      border-radius: $sc-autocomplete-border-radius;
+      box-shadow: $sc-autocomplete-box-shadow;
+      li {
+        div {
+          padding: $sc-autcomplete-padding;
+          &.selectedOption,
+          &:hover {
+            cursor: pointer;
+            color: #fff;
+            background-color: $sc-autocomplete-highlight;
+          }
+        }
+      }
+    }
+  }
+
+  .clearSuggestion {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    cursor: pointer;
+    color: $sc-autocomplete-clearbtn-color;
+    font-size: 1.3rem;
+    transition: 0.3s all;
+    &:hover {
+      color: $sc-autocomplete-clearbtn-color-hover;
+    }
+  }
+}
+.hidden {
+  display: none;
+}

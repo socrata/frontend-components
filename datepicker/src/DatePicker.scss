@@ -1,0 +1,65 @@
+// DatePicker styles
+
+.day-picker {
+  width: 280px;
+  float: left;
+  label {
+    margin-left: 20px;
+  }
+}
+
+.filter-dropdown-wrapper {
+  width: 100%;
+  border: 1px solid #666;
+  display: inline-block;
+  height: 40px;
+  position: relative;
+
+  h3 {
+    text-indent: 10px;
+  }
+
+  .filter-dropdown {
+    display: none;
+    width: 100%;
+    background-color: #fff;
+    position: absolute;
+    border: 1px solid #666;
+    top: 45px;
+
+  }
+  
+  &.expand {
+    .filter-dropdown {
+      display: block;
+    }
+    .button-expand {
+      &:before {
+        -ms-transform: rotate(-90deg);
+        -webkit-transform: rotate(-90deg);
+        transform: rotate(-90deg);
+      }
+    }
+  }
+
+  .button-expand {
+    float: right;
+    position: absolute;
+    right: 0;
+    top: 0;
+    display: block;
+    cursor: pointer;
+    width: 30px;
+    height: 40px;
+    color: black;
+    
+    &:before {
+      content: '▶';
+      -ms-transform: rotate(-30deg);
+      -webkit-transform: rotate(-30deg);
+      transform: rotate(-30deg);
+      display: block;
+      margin: 10px;
+    }
+  }
+}

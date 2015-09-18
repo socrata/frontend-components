@@ -1,5 +1,5 @@
 import React from 'react';
-import Numberranges from './react.socrata.numberranges';
+import NumberRanges from './react.socrata.numberranges';
 
 import css from './numberfilter.scss';
 
@@ -43,7 +43,6 @@ class SocrataNumberfilter extends React.Component {
         'editableUpper': false
       });
     }
-
   }
 
   handleBoundSet(num, whichBound) {
@@ -69,21 +68,21 @@ class SocrataNumberfilter extends React.Component {
   }
 
   renderRanges() {
-    if(this.state.lowerBound && !this.state.upperBound) {
+    if (this.state.lowerBound && !this.state.upperBound) {
       return (<div className="boundsPresenter">
-        { '$' + this.state.lowerBound + ' < ?'}
+        { '$' + this.state.lowerBound + ' < ?' }
         <button className="btn-delete" onClick={ this.deleteBound.bind(this, 'lower') }>
           <i className="fa fa-times"></i>
         </button>
       </div>);
-    } else if(!this.state.lowerBound && this.state.upperBound) {
+    } else if (!this.state.lowerBound && this.state.upperBound) {
       return (<div className="boundsPresenter">
         { '? < $' + this.state.upperBound }
         <button className="btn-delete" onClick={ this.deleteBound.bind(this, 'upper') }>
           <i className="fa fa-times"></i>
         </button>
       </div>);
-    } else if(this.state.lowerBound && this.state.upperBound) {
+    } else if (this.state.lowerBound && this.state.upperBound) {
       return (<div className="boundsPresenter">
         { '$' + this.state.lowerBound + ' < ? < $' + this.state.upperBound }
         <button className="btn-delete" onClick={ this.deleteBound.bind(this, 'all') }>
@@ -102,7 +101,7 @@ class SocrataNumberfilter extends React.Component {
 
   renderEdit() {
     if (this.state.editing) {
-      return <Numberranges
+      return <NumberRanges
                 onSetBound={ this.handleBoundSet.bind(this) }
                 lowerBound={ this.state.lowerBound }
                 editableLower={ this.state.editableLower }

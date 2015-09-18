@@ -1,6 +1,6 @@
 import React from 'react';
 
-class Numberranges extends React.Component{
+class NumberRanges extends React.Component{
 
   constructor(props) {
     super(props);
@@ -56,7 +56,7 @@ class Numberranges extends React.Component{
                     onChange={ this.toggleBoundAvailability.bind(this, 'lower') } />
              No less than
           </label>
-          <input type="number" className="rangeColNumInput"
+          <input type="number" className="rangeColNumInput" pattern="[0-9]*"
                   disabled={ !this.props.editableLower }
                   ref="lower"
                   onChange={ this.handleChangeInput.bind(this, 'lower') }
@@ -72,7 +72,7 @@ class Numberranges extends React.Component{
                     onChange={ this.toggleBoundAvailability.bind(this, 'upper') }/>
              No greater than
           </label>
-          <input type="number" className="rangeColNumInput"
+          <input type="number" className="rangeColNumInput" pattern="[0-9]*"
                   disabled={ !this.props.editableUpper }
                   ref="upper"
                   onChange={ this.handleChangeInput.bind(this, 'upper') }
@@ -84,15 +84,11 @@ class Numberranges extends React.Component{
 
 };
 
-Numberranges.propTypes = {
+NumberRanges.propTypes = {
   editableLower: React.PropTypes.bool,
   lowerBound: React.PropTypes.number,
   editableUpper: React.PropTypes.bool,
   upperBound: React.PropTypes.number
 };
-/*
-Numberranges.defaultProps = {
-  key: value
-};*/
 
-export default Numberranges;
+export default NumberRanges;

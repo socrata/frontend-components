@@ -15,17 +15,21 @@ $font-family: Helvetica, sans-serif;
   width: $rangeFilter-width;
   -webkit-font-smoothing: antialiased;
   font-family: $font-family;
+
   h3 {
     margin: 4px 0;
   }
+
   .inputContainer {
     display: block;
     position: relative;
+
     .inputPresenter {
       display: block;
       height: $inputpresenter-height;
       border: 1px solid #ccc;
       background-color: $c-range-container-input-bg;
+
       .btn-toggle {
         cursor: pointer;
         position: absolute;
@@ -45,6 +49,7 @@ $font-family: Helvetica, sans-serif;
       line-height: $inputpresenter-height;
       padding-left: 10px;
       font-size: 1.3rem;
+
       .btn-delete {
         cursor: pointer;
         margin-left: 10px;
@@ -57,6 +62,14 @@ $font-family: Helvetica, sans-serif;
       }
     }
     .rangeCols {
+      position: relative;
+      padding: $padding;
+      margin-top: 15px;
+      border: $border-stroke-width solid $c-range-container-border;
+      background-color: $c-range-container-bg;
+      color: white;
+      font-size: 0.9rem;
+
       .triangle {
         position: absolute;
         right: 18px;
@@ -67,23 +80,19 @@ $font-family: Helvetica, sans-serif;
         border-width: 0 0 15px 15px;
         border-color: transparent transparent $c-range-container-bg transparent;
       }
-      position: relative;
-      padding: $padding;
-      margin-top: 15px;
-      border: $border-stroke-width solid $c-range-container-border;
-      background-color: $c-range-container-bg;
-      color: white;
-      font-size: 0.9rem;
       .rangeCol {
         position: relative;
         display: inline-block;
         width: 46%;
+
         .checkbox-group {
           cursor: pointer;
         }
+
         input[type="checkbox"] {
           margin-right: $padding;
         }
+
         input[type="number"] {
           display: block;
           width: 90%;
@@ -104,6 +113,7 @@ $font-family: Helvetica, sans-serif;
           }
         }
       }
+
       .warning {
         display: inline-block;
         height: 0;

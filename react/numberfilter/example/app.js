@@ -20657,13 +20657,13 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var Numberranges = (function (_React$Component) {
-	  _inherits(Numberranges, _React$Component);
+	var NumberRanges = (function (_React$Component) {
+	  _inherits(NumberRanges, _React$Component);
 
-	  function Numberranges(props) {
-	    _classCallCheck(this, Numberranges);
+	  function NumberRanges(props) {
+	    _classCallCheck(this, NumberRanges);
 
-	    _get(Object.getPrototypeOf(Numberranges.prototype), 'constructor', this).call(this, props);
+	    _get(Object.getPrototypeOf(NumberRanges.prototype), 'constructor', this).call(this, props);
 
 	    this.state = {
 	      editingRefName: null
@@ -20672,7 +20672,7 @@
 	    this.warnBound = this.warnBound.bind(this);
 	  }
 
-	  _createClass(Numberranges, [{
+	  _createClass(NumberRanges, [{
 	    key: 'componentDidUpdate',
 	    value: function componentDidUpdate() {
 	      if (this.state.editingRefName) {
@@ -20725,7 +20725,7 @@
 	              onChange: this.toggleBoundAvailability.bind(this, 'lower') }),
 	            'No less than'
 	          ),
-	          _react2['default'].createElement('input', { type: 'number', className: 'rangeColNumInput',
+	          _react2['default'].createElement('input', { type: 'number', className: 'rangeColNumInput', pattern: '[0-9]*',
 	            disabled: !this.props.editableLower,
 	            ref: 'lower',
 	            onChange: this.handleChangeInput.bind(this, 'lower'),
@@ -20747,7 +20747,7 @@
 	              onChange: this.toggleBoundAvailability.bind(this, 'upper') }),
 	            'No greater than'
 	          ),
-	          _react2['default'].createElement('input', { type: 'number', className: 'rangeColNumInput',
+	          _react2['default'].createElement('input', { type: 'number', className: 'rangeColNumInput', pattern: '[0-9]*',
 	            disabled: !this.props.editableUpper,
 	            ref: 'upper',
 	            onChange: this.handleChangeInput.bind(this, 'upper'),
@@ -20757,23 +20757,19 @@
 	    }
 	  }]);
 
-	  return Numberranges;
+	  return NumberRanges;
 	})(_react2['default'].Component);
 
 	;
 
-	Numberranges.propTypes = {
+	NumberRanges.propTypes = {
 	  editableLower: _react2['default'].PropTypes.bool,
 	  lowerBound: _react2['default'].PropTypes.number,
 	  editableUpper: _react2['default'].PropTypes.bool,
 	  upperBound: _react2['default'].PropTypes.number
 	};
-	/*
-	Numberranges.defaultProps = {
-	  key: value
-	};*/
 
-	exports['default'] = Numberranges;
+	exports['default'] = NumberRanges;
 	module.exports = exports['default'];
 
 /***/ },

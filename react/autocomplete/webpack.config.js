@@ -1,8 +1,8 @@
 module.exports = {
-  entry: './src/react.socrata.autocomplete.js',
+  entry: './app.js',
   output: {
-    path: './build/',
-    filename: 'react.socrata.bundle.autocomplete.js'
+    path: './example/',
+    filename: 'app.js'
   },
   module: {
     loaders: [

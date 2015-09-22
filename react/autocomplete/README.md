@@ -67,3 +67,6 @@ Generated API:
 ```
 "https://opendata-demo.test-socrata.com/views/3q2y-nhw8/columns/job_title/suggest/?size=10".
 ```
+
+### References
+[React Typeahead Component by Ezequiel](https://github.com/ezequiel/react-typeahead-component)

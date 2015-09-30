@@ -26,6 +26,7 @@ $font-family: Helvetica, sans-serif;
 
     .inputPresenter {
       display: block;
+      cursor: pointer;
       height: $inputpresenter-height;
       border: 1px solid #ccc;
       background-color: $c-range-container-input-bg;
@@ -64,21 +65,21 @@ $font-family: Helvetica, sans-serif;
     .rangeCols {
       position: relative;
       padding: $padding;
-      margin-top: 15px;
-      border: $border-stroke-width solid $c-range-container-border;
+      margin-top: 17px;
+      border: none;
       background-color: $c-range-container-bg;
       color: white;
       font-size: 0.9rem;
 
       .triangle {
         position: absolute;
-        right: 18px;
+        left: 0;
         top: -15px;
         width: 0;
         height: 0;
         border-style: solid;
-        border-width: 0 0 15px 15px;
-        border-color: transparent transparent $c-range-container-bg transparent;
+        border-width: 15px 0 0 15px;
+        border-color: transparent transparent transparent $c-range-container-bg;
       }
       .rangeCol {
         position: relative;

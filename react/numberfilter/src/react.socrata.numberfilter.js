@@ -118,7 +118,7 @@ class SocrataNumberfilter extends React.Component {
       <div className="rangeFilter">
         <h3>{ this.props.name }</h3>
         <div className="inputContainer">
-          <div className="inputPresenter">
+          <div className="inputPresenter" onClick={ this.toggleRangeContainer.bind(this) }>
             { this.renderRanges() }
             <i className="btn-toggle fa fa-chevron-down"
                 onClick={ this.toggleRangeContainer.bind(this) }></i>

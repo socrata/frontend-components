@@ -1,3 +1,6 @@
+import React from 'react';
+import $ from 'jquery';
+
 import Typeahead from 'react-typeahead-component';
 import OptionTemplate from './react.optionTemplate';
 

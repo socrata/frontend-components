@@ -12,6 +12,12 @@ $c-range-highlight: #DEBB1E;
 $font-family: Helvetica, sans-serif;
 
 .rangeFilter {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
   width: $rangeFilter-width;
   -webkit-font-smoothing: antialiased;
   font-family: $font-family;
@@ -65,7 +71,8 @@ $font-family: Helvetica, sans-serif;
     .rangeCols {
       position: relative;
       padding: $padding;
-      margin-top: 17px;
+      margin-top: 20px;
+      margin-left: 10px;
       border: none;
       background-color: $c-range-container-bg;
       color: white;

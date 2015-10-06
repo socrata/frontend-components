@@ -1,0 +1,131 @@
+$rangeFilter-width: 380px;
+$inputpresenter-height: 50px;
+$padding: 10px;
+$border-stroke-width: 2px;
+
+$c-range-container-bg: #4D5967;
+$c-range-container-border: #29323D;
+$c-range-container-input-bg: #3F4751;
+$c-range-container-input-border: #5B7486;
+$c-range-highlight: #DEBB1E;
+
+$font-family: Helvetica, sans-serif;
+
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  border-radius: 3px;
+  background-color: #414D5C;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 3px;
+  background-color: #59718D;
+}
+
+.mod-socrata-autocomplete-container {
+  position: relative;
+  background-color: $c-range-container-bg;
+  font-family: $font-family;
+  padding: 10px;
+  .mod-socrata-autocomplete-triangle {
+    position: absolute;
+    top: -15px;
+    left: 0;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 15px 0 0 15px;
+    border-color: transparent transparent transparent #4d5967;
+  }
+  .mod-socrata-autocomplete-searchfield {
+    background-color: $c-range-container-input-bg;
+    padding: 2%;
+    border-radius: 3px;
+    border: 1px solid $c-range-container-input-border;
+    .search-icon {
+      color: #ccc;
+    }
+    input {
+      width: 80%;
+      padding: 2%;
+      font-size: 1.1rem;
+      border: none;
+      outline: none;
+      background-color: transparent;
+      color: white;
+    }
+    .clearSuggestion {
+      cursor: pointer;
+      color: #ccc;
+    }
+  }
+  .mod-socrata-autocomplete-message {
+    margin-top: 5px;
+    color: #ccc;
+    font-weight: 100;
+    font-size: 0.8rem;
+  }
+  .mod-socrata-autocomplete-lists {
+    margin: 0;
+    padding: 0;
+    h4 {
+      color: white;
+      margin-top: 20px;
+      margin-bottom: 0;
+      font-weight: 300;
+      font-size: 0.9rem;
+    }
+    .mod-socrata-autocomplete-lists-filter-list {
+      list-style: none;
+      padding: 0;
+      color: $c-range-highlight;
+      margin: 0;
+      margin-top: 10px;
+      .mod-socrata-autocomplete-lists-filter-listitem {
+        padding: 5px;
+        font-weight: 100;
+        font-size: 0.9rem;
+        cursor: default;
+        &:hover {
+          color: #FFDA35;
+        }
+        .fa-filter {
+          margin-right: 10px;
+        }
+        .fa-times {
+          cursor: pointer;
+          margin-left: 15px;
+        }
+      }
+    }
+    .mod-socrata-autocomplete-lists-suggestions-list {
+      list-style: none;
+      padding: 0;
+      color: white;
+      max-height: 300px;
+      overflow-y: scroll;
+      margin-bottom: 5px;
+      .mod-socrata-autocomplete-lists-suggestions-listitem {
+        cursor: pointer;
+        padding: 5px;
+        font-weight: 100;
+        font-size: 0.9rem;
+        &:hover,
+        &.is-active {
+          background-color: #69A4D0;
+        }
+      }
+    }
+    .listitem-footnote {
+      font-weight: 200;
+      font-style: italic;
+      font-size: 0.8rem;
+      color: $c-range-highlight;
+      margin-left: 6px;
+      margin-top: 8px;
+    }
+  }
+}

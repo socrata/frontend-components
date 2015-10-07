@@ -76,7 +76,7 @@ $font-family: Helvetica, sans-serif;
       margin-top: 20px;
       margin-bottom: 0;
       font-weight: 300;
-      font-size: 0.9rem;
+      font-size: 0.8rem;
     }
     .mod-socrata-autocomplete-lists-filter-list {
       list-style: none;
@@ -92,12 +92,12 @@ $font-family: Helvetica, sans-serif;
         &:hover {
           color: #FFDA35;
         }
-        .fa-filter {
-          margin-right: 10px;
-        }
         .fa-times {
+          margin-right: 15px;
           cursor: pointer;
-          margin-left: 15px;
+        }
+        .fa-filter {
+          margin-right: 5px;
         }
       }
     }
@@ -113,7 +113,6 @@ $font-family: Helvetica, sans-serif;
         padding: 5px;
         font-weight: 100;
         font-size: 0.9rem;
-        &:hover,
         &.is-active {
           background-color: #69A4D0;
         }

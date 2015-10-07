@@ -20528,52 +20528,53 @@
 	    };
 	    this.handleSuggestionClick = this.handleSuggestionClick.bind(this);
 	    this.handleDeleteFilter = this.handleDeleteFilter.bind(this);
+	    this.renderClearInput = this.renderClearInput.bind(this);
 	  }
 
 	  _createClass(SocrataAutocomplete, [{
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
-	      this.renderSuggestions();
+	      this.fetchSuggestions();
 	      this.refs.searchinput.getDOMNode().focus();
 	    }
 	  }, {
 	    key: 'handleKeyboardEvents',
 	    value: function handleKeyboardEvents(e) {
-	      var idx;
+	      var activeIndex, activeItemOffset, currentScrollPosition;
 
 	      if (e.keyCode == 40) {
 	        e.preventDefault();
-	        idx = this.state.activeIndex >= 0 ? parseFloat(this.state.activeIndex) + 1 : 0; // going down
+	        activeIndex = this.state.activeIndex >= 0 ? Number(this.state.activeIndex) + 1 : 0; // going down
 
-	        if (typeof this.state.options[idx] != 'undefined') {
+	        if (typeof this.state.options[activeIndex] != 'undefined') {
 	          this.setState({
-	            activeIndex: idx,
-	            searchinput: this.state.options[idx].text
+	            activeIndex: activeIndex,
+	            searchinput: this.state.options[activeIndex].text
 	          });
 
-	          if (idx < this.state.options.length) {
-	            var activeItemOffset = (0, _jquery2['default'])('.mod-socrata-autocomplete-lists-suggestions-listitem:nth-child(' + (idx + 1) + ')').offset().top;
+	          if (activeIndex < this.state.options.length) {
+	            activeItemOffset = (0, _jquery2['default'])('.mod-socrata-autocomplete-lists-suggestions-listitem:nth-child(' + (activeIndex + 1) + ')').offset().top;
 
-	            if (activeItemOffset > 300 + (0, _jquery2['default'])('.mod-socrata-autocomplete-lists-filter-list').height()) {
-	              var currentScrollPosition = (0, _jquery2['default'])('.mod-socrata-autocomplete-lists-suggestions-list').scrollTop();
+	            if (activeItemOffset > 350 + (0, _jquery2['default'])('.mod-socrata-autocomplete-lists-filter-list').height()) {
+	              currentScrollPosition = (0, _jquery2['default'])('.mod-socrata-autocomplete-lists-suggestions-list').scrollTop();
 	              (0, _jquery2['default'])('.mod-socrata-autocomplete-lists-suggestions-list').scrollTop(currentScrollPosition + 26);
 	            }
 	          }
 	        }
 	      } else if (e.keyCode == 38) {
 	        e.preventDefault();
-	        idx = this.state.activeIndex >= 0 ? parseFloat(this.state.activeIndex) - 1 : 0; // going up
+	        activeIndex = this.state.activeIndex >= 0 ? Number(this.state.activeIndex) - 1 : 0; // going up
 
-	        if (typeof this.state.options[idx] != 'undefined') {
+	        if (typeof this.state.options[activeIndex] != 'undefined') {
 	          this.setState({
-	            activeIndex: idx,
-	            searchinput: this.state.options[idx].text
+	            activeIndex: activeIndex,
+	            searchinput: this.state.options[activeIndex].text
 	          });
 
-	          if (idx < this.state.options.length) {
-	            var activeItemOffset = (0, _jquery2['default'])('.mod-socrata-autocomplete-lists-suggestions-listitem:nth-child(' + (idx + 1) + ')').offset().top;
-	            if (activeItemOffset < 138 + (0, _jquery2['default'])('.mod-socrata-autocomplete-lists-filter-list').height()) {
-	              var currentScrollPosition = (0, _jquery2['default'])('.mod-socrata-autocomplete-lists-suggestions-list').scrollTop();
+	          if (activeIndex < this.state.options.length) {
+	            activeItemOffset = (0, _jquery2['default'])('.mod-socrata-autocomplete-lists-suggestions-listitem:nth-child(' + (activeIndex + 1) + ')').offset().top;
+	            if (activeItemOffset < 164 + (0, _jquery2['default'])('.mod-socrata-autocomplete-lists-filter-list').height()) {
+	              currentScrollPosition = (0, _jquery2['default'])('.mod-socrata-autocomplete-lists-suggestions-list').scrollTop();
 	              (0, _jquery2['default'])('.mod-socrata-autocomplete-lists-suggestions-list').scrollTop(currentScrollPosition - 26);
 	            }
 	          }
@@ -20594,23 +20595,18 @@
 	      }
 	    }
 	  }, {
-	    key: 'renderSuggestions',
-	    value: function renderSuggestions(newSuggestions) {
-	      var newSuggestions = newSuggestions || '';
+	    key: 'fetchSuggestions',
+	    value: function fetchSuggestions(newSuggestionText) {
+	      var newSuggestions = newSuggestionText || '';
 
 	      var suggestionUrl = this.props.source + this.props.viewId + '/columns/' + this.props.searchColumn + '/suggest/' + newSuggestions + '?size=' + this.props.size;
 
-	      this.getSuggestions(suggestionUrl);
-	    }
-	  }, {
-	    key: 'getSuggestions',
-	    value: function getSuggestions(sourceUrl) {
-	      var self = this;
-
 	      this.setState({ requesting: true });
+
+	      var self = this;
 	      _jquery2['default'].ajax({
 	        method: "GET",
-	        url: sourceUrl
+	        url: suggestionUrl
 	      }).success(function (result) {
 	        self.setState({
 	          requesting: false,
@@ -20652,7 +20648,7 @@
 	    key: 'handleSearchChange',
 	    value: function handleSearchChange(e) {
 	      this.setState({ searchinput: e.target.value });
-	      this.renderSuggestions(e.target.value);
+	      this.fetchSuggestions(e.target.value);
 	    }
 	  }, {
 	    key: 'handleSuggestionClick',
@@ -20689,17 +20685,16 @@
 	  }, {
 	    key: 'getArrayItemIndexByText',
 	    value: function getArrayItemIndexByText(selectedObj, scopeArray) {
-	      for (var i = scopeArray.length - 1; i >= 0; i--) {
-	        if (scopeArray[i].text == selectedObj.text) {
-	          return i;
-	        }
-	      };
+	      scopeArray.indexOf(scopeArray.filter(function (item) {
+	        return item.text === selectedObj.text;
+	      }));
 	    }
 	  }, {
 	    key: 'handleClearInput',
 	    value: function handleClearInput() {
+	      this.refs.searchinput.getDOMNode().value = '';
 	      this.setState({ searchinput: '' });
-	      this.renderSuggestions();
+	      this.fetchSuggestions();
 	    }
 	  }, {
 	    key: 'checkActive',
@@ -20708,6 +20703,18 @@
 	        return ' is-active';
 	      } else {
 	        return '';
+	      }
+	    }
+	  }, {
+	    key: 'makeItemActive',
+	    value: function makeItemActive(idx) {
+	      this.setState({ activeIndex: idx });
+	    }
+	  }, {
+	    key: 'renderClearInput',
+	    value: function renderClearInput() {
+	      if (_react2['default'].findDOMNode(this.refs.searchinput) && _react2['default'].findDOMNode(this.refs.searchinput).value.length > 0) {
+	        return _react2['default'].createElement('i', { className: 'clearSuggestion fa fa-times', onClick: this.handleClearInput.bind(this) });
 	      }
 	    }
 	  }, {
@@ -20721,9 +20728,9 @@
 	            'li',
 	            { className: 'mod-socrata-autocomplete-lists-filter-listitem',
 	              key: idx },
+	            _react2['default'].createElement('i', { className: 'fa fa-times', onClick: self.handleDeleteFilter.bind(self, selectionObj) }),
 	            _react2['default'].createElement('i', { className: 'fa fa-filter' }),
-	            selectionObj.text,
-	            _react2['default'].createElement('i', { className: 'fa fa-times', onClick: self.handleDeleteFilter.bind(self, selectionObj) })
+	            selectionObj.text
 	          );
 	        });
 	      }
@@ -20734,24 +20741,23 @@
 	            return _react2['default'].createElement(
 	              'li',
 	              { className: "mod-socrata-autocomplete-lists-suggestions-listitem" + self.checkActive(idx),
-	                'data-obj': suggestionObj,
 	                key: idx,
-	                onClick: self.handleSuggestionClick.bind(self, suggestionObj) },
+	                onClick: self.handleSuggestionClick.bind(self, suggestionObj),
+	                onMouseEnter: self.makeItemActive.bind(self, idx) },
 	              suggestionObj.text
 	            );
 	          } else {
 	            return _react2['default'].createElement(
 	              'li',
 	              { className: "mod-socrata-autocomplete-lists-suggestions-listitem" + self.checkActive(idx),
-	                'data-obj': suggestionObj,
 	                key: idx,
-	                onClick: self.handleSuggestionClick.bind(self, suggestionObj) },
+	                onClick: self.handleSuggestionClick.bind(self, suggestionObj),
+	                onMouseEnter: self.makeItemActive.bind(self, idx) },
 	              suggestionObj.text
 	            );
 	          }
 	        });
 	      }
-
 	      return _react2['default'].createElement(
 	        'div',
 	        { className: 'mod-socrata-autocomplete-container' },
@@ -20760,11 +20766,11 @@
 	          'div',
 	          { className: 'mod-socrata-autocomplete-searchfield' },
 	          _react2['default'].createElement('i', { className: 'search-icon fa fa-search' }),
-	          _react2['default'].createElement('input', { type: 'text', ref: 'searchinput',
-	            value: this.state.searchinput,
+	          _react2['default'].createElement('input', { type: 'text',
+	            ref: 'searchinput',
 	            onChange: this.handleSearchChange.bind(this),
 	            onKeyDown: this.handleKeyboardEvents.bind(this) }),
-	          this.state.searchinput && _react2['default'].createElement('i', { className: 'clearSuggestion fa fa-times', onClick: this.handleClearInput.bind(this) })
+	          this.renderClearInput()
 	        ),
 	        this.message(),
 	        _react2['default'].createElement(
@@ -20799,6 +20805,16 @@
 
 	  return SocrataAutocomplete;
 	})(_react2['default'].Component);
+
+	SocrataAutocomplete.propTypes = {
+	  placeholder: _react2['default'].PropTypes.string,
+	  source: _react2['default'].PropTypes.string,
+	  viewId: _react2['default'].PropTypes.string,
+	  searchColumn: _react2['default'].PropTypes.string,
+	  suggestionLabel: _react2['default'].PropTypes.string,
+	  suggestionData: _react2['default'].PropTypes.string,
+	  size: _react2['default'].PropTypes.number
+	};
 
 	SocrataAutocomplete.defaultProps = {
 	  requestSuccess: true
@@ -30058,7 +30074,7 @@
 
 
 	// module
-	exports.push([module.id, "::-webkit-scrollbar {\n  width: 12px; }\n\n::-webkit-scrollbar-track {\n  border-radius: 3px;\n  background-color: #414D5C; }\n\n::-webkit-scrollbar-thumb {\n  border-radius: 3px;\n  background-color: #59718D; }\n\n.mod-socrata-autocomplete-container {\n  position: relative;\n  background-color: #4D5967;\n  font-family: Helvetica, sans-serif;\n  padding: 10px; }\n  .mod-socrata-autocomplete-container .mod-socrata-autocomplete-triangle {\n    position: absolute;\n    top: -15px;\n    left: 0;\n    width: 0;\n    height: 0;\n    border-style: solid;\n    border-width: 15px 0 0 15px;\n    border-color: transparent transparent transparent #4d5967; }\n  .mod-socrata-autocomplete-container .mod-socrata-autocomplete-searchfield {\n    background-color: #3F4751;\n    padding: 2%;\n    border-radius: 3px;\n    border: 1px solid #5B7486; }\n    .mod-socrata-autocomplete-container .mod-socrata-autocomplete-searchfield .search-icon {\n      color: #ccc; }\n    .mod-socrata-autocomplete-container .mod-socrata-autocomplete-searchfield input {\n      width: 80%;\n      padding: 2%;\n      font-size: 1.1rem;\n      border: none;\n      outline: none;\n      background-color: transparent;\n      color: white; }\n    .mod-socrata-autocomplete-container .mod-socrata-autocomplete-searchfield .clearSuggestion {\n      cursor: pointer;\n      color: #ccc; }\n  .mod-socrata-autocomplete-container .mod-socrata-autocomplete-message {\n    margin-top: 5px;\n    color: #ccc;\n    font-weight: 100;\n    font-size: 0.8rem; }\n  .mod-socrata-autocomplete-container .mod-socrata-autocomplete-lists {\n    margin: 0;\n    padding: 0; }\n    .mod-socrata-autocomplete-container .mod-socrata-autocomplete-lists h4 {\n      color: white;\n      margin-top: 20px;\n      margin-bottom: 0;\n      font-weight: 300;\n      font-size: 0.9rem; }\n    .mod-socrata-autocomplete-container .mod-socrata-autocomplete-lists .mod-socrata-autocomplete-lists-filter-list {\n      list-style: none;\n      padding: 0;\n      color: #DEBB1E;\n      margin: 0;\n      margin-top: 10px; }\n      .mod-socrata-autocomplete-container .mod-socrata-autocomplete-lists .mod-socrata-autocomplete-lists-filter-list .mod-socrata-autocomplete-lists-filter-listitem {\n        padding: 5px;\n        font-weight: 100;\n        font-size: 0.9rem;\n        cursor: default; }\n        .mod-socrata-autocomplete-container .mod-socrata-autocomplete-lists .mod-socrata-autocomplete-lists-filter-list .mod-socrata-autocomplete-lists-filter-listitem:hover {\n          color: #FFDA35; }\n        .mod-socrata-autocomplete-container .mod-socrata-autocomplete-lists .mod-socrata-autocomplete-lists-filter-list .mod-socrata-autocomplete-lists-filter-listitem .fa-filter {\n          margin-right: 10px; }\n        .mod-socrata-autocomplete-container .mod-socrata-autocomplete-lists .mod-socrata-autocomplete-lists-filter-list .mod-socrata-autocomplete-lists-filter-listitem .fa-times {\n          cursor: pointer;\n          margin-left: 15px; }\n    .mod-socrata-autocomplete-container .mod-socrata-autocomplete-lists .mod-socrata-autocomplete-lists-suggestions-list {\n      list-style: none;\n      padding: 0;\n      color: white;\n      max-height: 300px;\n      overflow-y: scroll;\n      margin-bottom: 5px; }\n      .mod-socrata-autocomplete-container .mod-socrata-autocomplete-lists .mod-socrata-autocomplete-lists-suggestions-list .mod-socrata-autocomplete-lists-suggestions-listitem {\n        cursor: pointer;\n        padding: 5px;\n        font-weight: 100;\n        font-size: 0.9rem; }\n        .mod-socrata-autocomplete-container .mod-socrata-autocomplete-lists .mod-socrata-autocomplete-lists-suggestions-list .mod-socrata-autocomplete-lists-suggestions-listitem:hover,\n        .mod-socrata-autocomplete-container .mod-socrata-autocomplete-lists .mod-socrata-autocomplete-lists-suggestions-list .mod-socrata-autocomplete-lists-suggestions-listitem.is-active {\n          background-color: #69A4D0; }\n    .mod-socrata-autocomplete-container .mod-socrata-autocomplete-lists .listitem-footnote {\n      font-weight: 200;\n      font-style: italic;\n      font-size: 0.8rem;\n      color: #DEBB1E;\n      margin-left: 6px;\n      margin-top: 8px; }\n", ""]);
+	exports.push([module.id, "::-webkit-scrollbar {\n  width: 12px; }\n\n::-webkit-scrollbar-track {\n  border-radius: 3px;\n  background-color: #414D5C; }\n\n::-webkit-scrollbar-thumb {\n  border-radius: 3px;\n  background-color: #59718D; }\n\n.mod-socrata-autocomplete-container {\n  position: relative;\n  background-color: #4D5967;\n  font-family: Helvetica, sans-serif;\n  padding: 10px; }\n  .mod-socrata-autocomplete-container .mod-socrata-autocomplete-triangle {\n    position: absolute;\n    top: -15px;\n    left: 0;\n    width: 0;\n    height: 0;\n    border-style: solid;\n    border-width: 15px 0 0 15px;\n    border-color: transparent transparent transparent #4d5967; }\n  .mod-socrata-autocomplete-container .mod-socrata-autocomplete-searchfield {\n    background-color: #3F4751;\n    padding: 2%;\n    border-radius: 3px;\n    border: 1px solid #5B7486; }\n    .mod-socrata-autocomplete-container .mod-socrata-autocomplete-searchfield .search-icon {\n      color: #ccc; }\n    .mod-socrata-autocomplete-container .mod-socrata-autocomplete-searchfield input {\n      width: 80%;\n      padding: 2%;\n      font-size: 1.1rem;\n      border: none;\n      outline: none;\n      background-color: transparent;\n      color: white; }\n    .mod-socrata-autocomplete-container .mod-socrata-autocomplete-searchfield .clearSuggestion {\n      cursor: pointer;\n      color: #ccc; }\n  .mod-socrata-autocomplete-container .mod-socrata-autocomplete-message {\n    margin-top: 5px;\n    color: #ccc;\n    font-weight: 100;\n    font-size: 0.8rem; }\n  .mod-socrata-autocomplete-container .mod-socrata-autocomplete-lists {\n    margin: 0;\n    padding: 0; }\n    .mod-socrata-autocomplete-container .mod-socrata-autocomplete-lists h4 {\n      color: white;\n      margin-top: 20px;\n      margin-bottom: 0;\n      font-weight: 300;\n      font-size: 0.8rem; }\n    .mod-socrata-autocomplete-container .mod-socrata-autocomplete-lists .mod-socrata-autocomplete-lists-filter-list {\n      list-style: none;\n      padding: 0;\n      color: #DEBB1E;\n      margin: 0;\n      margin-top: 10px; }\n      .mod-socrata-autocomplete-container .mod-socrata-autocomplete-lists .mod-socrata-autocomplete-lists-filter-list .mod-socrata-autocomplete-lists-filter-listitem {\n        padding: 5px;\n        font-weight: 100;\n        font-size: 0.9rem;\n        cursor: default; }\n        .mod-socrata-autocomplete-container .mod-socrata-autocomplete-lists .mod-socrata-autocomplete-lists-filter-list .mod-socrata-autocomplete-lists-filter-listitem:hover {\n          color: #FFDA35; }\n        .mod-socrata-autocomplete-container .mod-socrata-autocomplete-lists .mod-socrata-autocomplete-lists-filter-list .mod-socrata-autocomplete-lists-filter-listitem .fa-times {\n          margin-right: 15px;\n          cursor: pointer; }\n        .mod-socrata-autocomplete-container .mod-socrata-autocomplete-lists .mod-socrata-autocomplete-lists-filter-list .mod-socrata-autocomplete-lists-filter-listitem .fa-filter {\n          margin-right: 5px; }\n    .mod-socrata-autocomplete-container .mod-socrata-autocomplete-lists .mod-socrata-autocomplete-lists-suggestions-list {\n      list-style: none;\n      padding: 0;\n      color: white;\n      max-height: 300px;\n      overflow-y: scroll;\n      margin-bottom: 5px; }\n      .mod-socrata-autocomplete-container .mod-socrata-autocomplete-lists .mod-socrata-autocomplete-lists-suggestions-list .mod-socrata-autocomplete-lists-suggestions-listitem {\n        cursor: pointer;\n        padding: 5px;\n        font-weight: 100;\n        font-size: 0.9rem; }\n        .mod-socrata-autocomplete-container .mod-socrata-autocomplete-lists .mod-socrata-autocomplete-lists-suggestions-list .mod-socrata-autocomplete-lists-suggestions-listitem.is-active {\n          background-color: #69A4D0; }\n    .mod-socrata-autocomplete-container .mod-socrata-autocomplete-lists .listitem-footnote {\n      font-weight: 200;\n      font-style: italic;\n      font-size: 0.8rem;\n      color: #DEBB1E;\n      margin-left: 6px;\n      margin-top: 8px; }\n", ""]);
 
 	// exports
 

@@ -67,17 +67,35 @@ class SocrataAutocomplete extends React.Component {
         }
       }
     } else if (e.keyCode == 13) {
+      var duplicate = false;
+      var aFilters = [];
+
       if (this.state.activeIndex) {
-        var aFilters = this.state.selected;
-        aFilters.push(this.state.options[this.state.activeIndex]);
+        for (var i = this.state.selected.length - 1; i >= 0; i--) {
+          if (this.state.selected[i].text == this.state.options[this.state.activeIndex].text) {
+            duplicate = true;
+          }
+        };
 
-        var aOptions = this.state.options;
-        aOptions.splice(this.state.activeIndex, 1);
+        if (!duplicate) {
+          aFilters = this.state.selected;
+          aFilters.push(this.state.options[this.state.activeIndex]);
 
-        this.setState({
-          options: aOptions,
-          selected: aFilters
-        });
+          this.setState({ selected: aFilters });
+        }
+      } else {
+        for (var j = this.state.selected.length - 1; j >= 0; j--) {
+          if (this.state.selected[j].text == this.state.options[this.state.activeIndex].text) {
+            duplicate = true;
+          }
+        };
+
+        if (!duplicate) {
+          aFilters = this.state.selected;
+          aFilters.push(this.state.options[0]);
+
+          this.setState({ selected: aFilters });
+        }
       }
     }
   }
@@ -137,17 +155,18 @@ class SocrataAutocomplete extends React.Component {
   }
 
   handleSuggestionClick(suggestionObj, evt) {
-    var aSelecteds = this.state.selected;
-    aSelecteds.push(suggestionObj);
+    var duplicate = false;
+    for (var i = this.state.selected.length - 1; i >= 0; i--) {
+      if (this.state.selected[i].text == this.state.options[this.state.activeIndex].text) {
+        duplicate = true;
+      }
+    };
 
-    var aOptions = this.state.options;
-    var selectedIndex = this.getArrayItemIndexByText(suggestionObj, aOptions);
-    aOptions.splice(selectedIndex, 1);
-
-    this.setState({
-      options: aOptions,
-      selected: aSelecteds
-    });
+    if (!duplicate) {
+      var aFilters = this.state.selected;
+      aFilters.push(suggestionObj);
+      this.setState({ selected: aFilters });
+    }
   }
 
   handleDeleteFilter(filterObj, evt) {

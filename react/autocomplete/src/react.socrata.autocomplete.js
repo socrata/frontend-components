@@ -186,10 +186,11 @@ class SocrataAutocomplete extends React.Component {
   }
 
   getArrayItemIndexByText(selectedObj, scopeArray) {
-    scopeArray.indexOf(scopeArray.filter(function(item) {
-        return item.text === selectedObj.text;
-      })
-    );
+    for (var i = scopeArray.length - 1; i >= 0; i--) {
+      if (scopeArray[i].text == selectedObj.text) {
+        return i;
+      }
+    };
   }
 
   handleClearInput() {

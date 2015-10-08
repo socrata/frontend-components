@@ -1,7 +1,8 @@
 import React from 'react';
-import NumberRanges from './react.socrata.numberranges';
+import $ from 'jquery';
 
-import css from './numberfilter.scss';
+import NumberRanges from './react.socrata.numberranges';
+import './numberfilter.scss';
 
 class SocrataNumberfilter extends React.Component {
 
@@ -18,6 +19,13 @@ class SocrataNumberfilter extends React.Component {
       editableLower: false,
       editableUpper: false
     };
+
+    var self = this;
+    $('html').click(function(e){
+      if ($(e.target).parents('.rangeFilter').length == 0) {
+        self.state.editing && self.setState({'editing': false});
+      }
+    });
   }
 
   toggleRangeContainer() {

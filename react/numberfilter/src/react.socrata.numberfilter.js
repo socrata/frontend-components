@@ -107,6 +107,12 @@ class SocrataNumberfilter extends React.Component {
     this.setState(obj);
   }
 
+  changeInputState(whichBound) {
+    var obj = {};
+    obj['editable' + whichBound] = true;
+    this.setState(obj);
+  }
+
   renderEdit() {
     if (this.state.editing) {
       return <NumberRanges
@@ -116,6 +122,7 @@ class SocrataNumberfilter extends React.Component {
                 editableUpper={ this.state.editableUpper }
                 upperBound={ this.state.upperBound }
                 onChangeEditableToggle={ this.handleEditableToggle.bind(this) }
+                onChangeEditableInput={ this.changeInputState.bind(this) }
                 onBoundChange={ this.handleChangeInput.bind(this) } />;
     }
     return null;

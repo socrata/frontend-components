@@ -39,10 +39,17 @@ class NumberRanges extends React.Component{
   warnBound(whichBound) {
     // check if lowerbound is greater than upperbound
     if (this.props.upperBound != null && this.props.lowerBound != null &&
-      parseFloat(this.props.lowerBound) > parseFloat(this.props.upperBound)) {
+      parseFloat(this.props.lowerBound) >= parseFloat(this.props.upperBound)) {
       return <i className="fa fa-exclamation-triangle"></i>;
     }
     return ' ';
+  }
+
+  handleInputClick(whichBound) {
+    this.props.onChangeEditableInput(whichBound);
+
+    var refName = whichBound.toLowerCase();
+    this.setState({ editingRefName: refName });
   }
 
   render() {
@@ -59,6 +66,7 @@ class NumberRanges extends React.Component{
           <input type="number" className="rangeColNumInput" pattern="[0-9]*"
                   disabled={ !this.props.editableLower }
                   ref="lower"
+                  onClick={ this.handleInputClick.bind(this, 'Lower') }
                   onChange={ this.handleChangeInput.bind(this, 'lower') }
                   value={ this.props.lowerBound }/>
         </div>
@@ -75,6 +83,7 @@ class NumberRanges extends React.Component{
           <input type="number" className="rangeColNumInput" pattern="[0-9]*"
                   disabled={ !this.props.editableUpper }
                   ref="upper"
+                  onClick={ this.handleInputClick.bind(this, 'Upper') }
                   onChange={ this.handleChangeInput.bind(this, 'upper') }
                   value={ this.props.upperBound }/>
         </div>

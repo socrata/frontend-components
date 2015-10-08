@@ -20593,6 +20593,13 @@
 	      this.setState(obj);
 	    }
 	  }, {
+	    key: 'changeInputState',
+	    value: function changeInputState(whichBound) {
+	      var obj = {};
+	      obj['editable' + whichBound] = true;
+	      this.setState(obj);
+	    }
+	  }, {
 	    key: 'renderEdit',
 	    value: function renderEdit() {
 	      if (this.state.editing) {
@@ -20603,6 +20610,7 @@
 	          editableUpper: this.state.editableUpper,
 	          upperBound: this.state.upperBound,
 	          onChangeEditableToggle: this.handleEditableToggle.bind(this),
+	          onChangeEditableInput: this.changeInputState.bind(this),
 	          onBoundChange: this.handleChangeInput.bind(this) });
 	      }
 	      return null;
@@ -29927,10 +29935,18 @@
 	    key: 'warnBound',
 	    value: function warnBound(whichBound) {
 	      // check if lowerbound is greater than upperbound
-	      if (this.props.upperBound != null && this.props.lowerBound != null && parseFloat(this.props.lowerBound) > parseFloat(this.props.upperBound)) {
+	      if (this.props.upperBound != null && this.props.lowerBound != null && parseFloat(this.props.lowerBound) >= parseFloat(this.props.upperBound)) {
 	        return _react2['default'].createElement('i', { className: 'fa fa-exclamation-triangle' });
 	      }
 	      return ' ';
+	    }
+	  }, {
+	    key: 'handleInputClick',
+	    value: function handleInputClick(whichBound) {
+	      this.props.onChangeEditableInput(whichBound);
+
+	      var refName = whichBound.toLowerCase();
+	      this.setState({ editingRefName: refName });
 	    }
 	  }, {
 	    key: 'render',
@@ -29953,6 +29969,7 @@
 	          _react2['default'].createElement('input', { type: 'number', className: 'rangeColNumInput', pattern: '[0-9]*',
 	            disabled: !this.props.editableLower,
 	            ref: 'lower',
+	            onClick: this.handleInputClick.bind(this, 'Lower'),
 	            onChange: this.handleChangeInput.bind(this, 'lower'),
 	            value: this.props.lowerBound })
 	        ),
@@ -29975,6 +29992,7 @@
 	          _react2['default'].createElement('input', { type: 'number', className: 'rangeColNumInput', pattern: '[0-9]*',
 	            disabled: !this.props.editableUpper,
 	            ref: 'upper',
+	            onClick: this.handleInputClick.bind(this, 'Upper'),
 	            onChange: this.handleChangeInput.bind(this, 'upper'),
 	            value: this.props.upperBound })
 	        )

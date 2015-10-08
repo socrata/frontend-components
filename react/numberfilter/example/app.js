@@ -20645,8 +20645,6 @@
 	  return SocrataNumberfilter;
 	})(_react2['default'].Component);
 
-	;
-
 	exports['default'] = SocrataNumberfilter;
 	module.exports = exports['default'];
 
@@ -29923,7 +29921,7 @@
 	        if (this.state.editingRefName == whichBound) {
 	          this.setState({ editingRefName: null });
 	        }
-	      };
+	      }
 	    }
 	  }, {
 	    key: 'handleChangeInput',
@@ -29933,7 +29931,7 @@
 	    }
 	  }, {
 	    key: 'warnBound',
-	    value: function warnBound(whichBound) {
+	    value: function warnBound() {
 	      // check if lowerbound is greater than upperbound
 	      if (this.props.upperBound != null && this.props.lowerBound != null && parseFloat(this.props.lowerBound) >= parseFloat(this.props.upperBound)) {
 	        return _react2['default'].createElement('i', { className: 'fa fa-exclamation-triangle' });
@@ -30002,8 +30000,6 @@
 
 	  return NumberRanges;
 	})(_react2['default'].Component);
-
-	;
 
 	NumberRanges.propTypes = {
 	  editableLower: _react2['default'].PropTypes.bool,

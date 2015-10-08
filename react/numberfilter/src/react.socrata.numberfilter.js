@@ -21,7 +21,7 @@ class SocrataNumberfilter extends React.Component {
     };
 
     var self = this;
-    $('html').click(function(e){
+    $('html').click(function(e) {
       if ($(e.target).parents('.rangeFilter').length == 0) {
         self.state.editing && self.setState({'editing': false});
       }
@@ -144,6 +144,6 @@ class SocrataNumberfilter extends React.Component {
     );
   }
 
-};
+}
 
 export default SocrataNumberfilter;

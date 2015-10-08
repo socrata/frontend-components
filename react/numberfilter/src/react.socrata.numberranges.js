@@ -1,6 +1,6 @@
 import React from 'react';
 
-class NumberRanges extends React.Component{
+class NumberRanges extends React.Component {
 
   constructor(props) {
     super(props);
@@ -12,7 +12,7 @@ class NumberRanges extends React.Component{
     this.warnBound = this.warnBound.bind(this);
   }
 
-  componentDidUpdate(){
+  componentDidUpdate() {
     if (this.state.editingRefName) {
       React.findDOMNode(this.refs[this.state.editingRefName]).focus();
     }
@@ -27,7 +27,7 @@ class NumberRanges extends React.Component{
       if (this.state.editingRefName == whichBound) {
         this.setState({ editingRefName: null });
       }
-    };
+    }
 
   }
 
@@ -36,7 +36,7 @@ class NumberRanges extends React.Component{
     this.setState({ editingRefName: whichBound });
   }
 
-  warnBound(whichBound) {
+  warnBound() {
     // check if lowerbound is greater than upperbound
     if (this.props.upperBound != null && this.props.lowerBound != null &&
       parseFloat(this.props.lowerBound) >= parseFloat(this.props.upperBound)) {
@@ -91,7 +91,7 @@ class NumberRanges extends React.Component{
     );
   }
 
-};
+}
 
 NumberRanges.propTypes = {
   editableLower: React.PropTypes.bool,

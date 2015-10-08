@@ -27,7 +27,7 @@ class SocrataAutocomplete extends React.Component {
     var activeIndex, activeItemOffset, currentScrollPosition;
 
     if (e.keyCode == 40) {
-      e.preventDefault();
+      // e.preventDefault();
       activeIndex = this.state.activeIndex >= 0 ? Number(this.state.activeIndex) + 1 : 0; // going down
 
       if (typeof this.state.options[activeIndex] != 'undefined') {
@@ -75,7 +75,7 @@ class SocrataAutocomplete extends React.Component {
           if (this.state.selected[i].text == this.state.options[this.state.activeIndex].text) {
             duplicate = true;
           }
-        };
+        }
 
         if (!duplicate) {
           aFilters = this.state.selected;
@@ -88,7 +88,7 @@ class SocrataAutocomplete extends React.Component {
           if (this.state.selected[j].text == this.state.options[this.state.activeIndex].text) {
             duplicate = true;
           }
-        };
+        }
 
         if (!duplicate) {
           aFilters = this.state.selected;
@@ -96,6 +96,7 @@ class SocrataAutocomplete extends React.Component {
 
           this.setState({ selected: aFilters });
         }
+        this.refs.searchinput.getDOMNode().focus();
       }
     }
   }
@@ -112,7 +113,7 @@ class SocrataAutocomplete extends React.Component {
 
     var self = this;
     $.ajax({
-      method: "GET",
+      method: 'GET',
       url: suggestionUrl
     }).success(function(result) {
       self.setState({
@@ -160,13 +161,14 @@ class SocrataAutocomplete extends React.Component {
       if (this.state.selected[i].text == this.state.options[this.state.activeIndex].text) {
         duplicate = true;
       }
-    };
+    }
 
     if (!duplicate) {
       var aFilters = this.state.selected;
       aFilters.push(suggestionObj);
       this.setState({ selected: aFilters });
     }
+    this.refs.searchinput.getDOMNode().focus();
   }
 
   handleDeleteFilter(filterObj, evt) {
@@ -183,6 +185,8 @@ class SocrataAutocomplete extends React.Component {
       selected: aSelecteds,
       options: aOptions
     });
+
+    this.refs.searchinput.getDOMNode().focus();
   }
 
   getArrayItemIndexByText(selectedObj, scopeArray) {
@@ -190,7 +194,7 @@ class SocrataAutocomplete extends React.Component {
       if (scopeArray[i].text == selectedObj.text) {
         return i;
       }
-    };
+    }
   }
 
   handleClearInput() {
@@ -238,7 +242,7 @@ class SocrataAutocomplete extends React.Component {
       var suggestions = this.state.options.map(function(suggestionObj, idx) {
         if (idx + 1 === self.props.size) {
           return (
-            <li className={ "mod-socrata-autocomplete-lists-suggestions-listitem" + self.checkActive(idx) }
+            <li className={ 'mod-socrata-autocomplete-lists-suggestions-listitem' + self.checkActive(idx) }
               key={ idx }
               onClick={ self.handleSuggestionClick.bind(self, suggestionObj) }
               onMouseEnter={ self.makeItemActive.bind(self, idx) }>
@@ -247,7 +251,7 @@ class SocrataAutocomplete extends React.Component {
           );
         } else {
           return (
-            <li className={ "mod-socrata-autocomplete-lists-suggestions-listitem" + self.checkActive(idx) }
+            <li className={ 'mod-socrata-autocomplete-lists-suggestions-listitem' + self.checkActive(idx) }
               key={ idx }
               onClick={ self.handleSuggestionClick.bind(self, suggestionObj) }
               onMouseEnter={ self.makeItemActive.bind(self, idx) }>
@@ -264,8 +268,8 @@ class SocrataAutocomplete extends React.Component {
           <i className="search-icon fa fa-search"></i>
           <input type="text"
             ref="searchinput"
-            onChange={ this.handleSearchChange.bind(this) }
-            onKeyDown={ this.handleKeyboardEvents.bind(this) } />
+            onKeyDown={ this.handleKeyboardEvents.bind(this) }
+            onChange={ this.handleSearchChange.bind(this) } />
           { this.renderClearInput() }
         </div>
         { this.message() }

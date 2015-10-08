@@ -23,6 +23,9 @@
     "env": {
       "browser": true
     },
+    "plugins": [
+      "react"
+    ],
     "settings": {
       "ecmascript": 6,
       "jsx": true

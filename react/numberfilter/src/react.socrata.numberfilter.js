@@ -78,21 +78,21 @@ class SocrataNumberfilter extends React.Component {
   renderRanges() {
     if (this.state.lowerBound && !this.state.upperBound) {
       return (<div className="boundsPresenter">
-        { '$' + this.state.lowerBound + ' < ?' }
+        { 'No less than ' + '$' + this.state.lowerBound }
         <button className="btn-delete" onClick={ this.deleteBound.bind(this, 'lower') }>
           <i className="fa fa-times"></i>
         </button>
       </div>);
     } else if (!this.state.lowerBound && this.state.upperBound) {
       return (<div className="boundsPresenter">
-        { '? < $' + this.state.upperBound }
+        { 'No more than ' + '$' + this.state.upperBound }
         <button className="btn-delete" onClick={ this.deleteBound.bind(this, 'upper') }>
           <i className="fa fa-times"></i>
         </button>
       </div>);
     } else if (this.state.lowerBound && this.state.upperBound) {
       return (<div className="boundsPresenter">
-        { '$' + this.state.lowerBound + ' < ? < $' + this.state.upperBound }
+        { '$' + this.state.lowerBound + ' to $' + this.state.upperBound }
         <button className="btn-delete" onClick={ this.deleteBound.bind(this, 'all') }>
           <i className="fa fa-times"></i>
         </button>

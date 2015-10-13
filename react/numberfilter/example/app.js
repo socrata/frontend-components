@@ -20553,7 +20553,7 @@
 	        return _react2['default'].createElement(
 	          'div',
 	          { className: 'boundsPresenter' },
-	          '$' + this.state.lowerBound + ' < ?',
+	          'No less than ' + '$' + this.state.lowerBound,
 	          _react2['default'].createElement(
 	            'button',
 	            { className: 'btn-delete', onClick: this.deleteBound.bind(this, 'lower') },
@@ -20564,7 +20564,7 @@
 	        return _react2['default'].createElement(
 	          'div',
 	          { className: 'boundsPresenter' },
-	          '? < $' + this.state.upperBound,
+	          'No more than ' + '$' + this.state.upperBound,
 	          _react2['default'].createElement(
 	            'button',
 	            { className: 'btn-delete', onClick: this.deleteBound.bind(this, 'upper') },
@@ -20575,7 +20575,7 @@
 	        return _react2['default'].createElement(
 	          'div',
 	          { className: 'boundsPresenter' },
-	          '$' + this.state.lowerBound + ' < ? < $' + this.state.upperBound,
+	          '$' + this.state.lowerBound + ' to $' + this.state.upperBound,
 	          _react2['default'].createElement(
 	            'button',
 	            { className: 'btn-delete', onClick: this.deleteBound.bind(this, 'all') },
@@ -20593,6 +20593,13 @@
 	      this.setState(obj);
 	    }
 	  }, {
+	    key: 'changeInputState',
+	    value: function changeInputState(whichBound) {
+	      var obj = {};
+	      obj['editable' + whichBound] = true;
+	      this.setState(obj);
+	    }
+	  }, {
 	    key: 'renderEdit',
 	    value: function renderEdit() {
 	      if (this.state.editing) {
@@ -20603,6 +20610,7 @@
 	          editableUpper: this.state.editableUpper,
 	          upperBound: this.state.upperBound,
 	          onChangeEditableToggle: this.handleEditableToggle.bind(this),
+	          onChangeEditableInput: this.changeInputState.bind(this),
 	          onBoundChange: this.handleChangeInput.bind(this) });
 	      }
 	      return null;
@@ -20636,8 +20644,6 @@
 
 	  return SocrataNumberfilter;
 	})(_react2['default'].Component);
-
-	;
 
 	exports['default'] = SocrataNumberfilter;
 	module.exports = exports['default'];
@@ -29915,7 +29921,7 @@
 	        if (this.state.editingRefName == whichBound) {
 	          this.setState({ editingRefName: null });
 	        }
-	      };
+	      }
 	    }
 	  }, {
 	    key: 'handleChangeInput',
@@ -29925,12 +29931,20 @@
 	    }
 	  }, {
 	    key: 'warnBound',
-	    value: function warnBound(whichBound) {
+	    value: function warnBound() {
 	      // check if lowerbound is greater than upperbound
-	      if (this.props.upperBound != null && this.props.lowerBound != null && parseFloat(this.props.lowerBound) > parseFloat(this.props.upperBound)) {
+	      if (this.props.upperBound != null && this.props.lowerBound != null && parseFloat(this.props.lowerBound) >= parseFloat(this.props.upperBound)) {
 	        return _react2['default'].createElement('i', { className: 'fa fa-exclamation-triangle' });
 	      }
 	      return ' ';
+	    }
+	  }, {
+	    key: 'handleInputClick',
+	    value: function handleInputClick(whichBound) {
+	      this.props.onChangeEditableInput(whichBound);
+
+	      var refName = whichBound.toLowerCase();
+	      this.setState({ editingRefName: refName });
 	    }
 	  }, {
 	    key: 'render',
@@ -29953,6 +29967,7 @@
 	          _react2['default'].createElement('input', { type: 'number', className: 'rangeColNumInput', pattern: '[0-9]*',
 	            disabled: !this.props.editableLower,
 	            ref: 'lower',
+	            onClick: this.handleInputClick.bind(this, 'Lower'),
 	            onChange: this.handleChangeInput.bind(this, 'lower'),
 	            value: this.props.lowerBound })
 	        ),
@@ -29975,6 +29990,7 @@
 	          _react2['default'].createElement('input', { type: 'number', className: 'rangeColNumInput', pattern: '[0-9]*',
 	            disabled: !this.props.editableUpper,
 	            ref: 'upper',
+	            onClick: this.handleInputClick.bind(this, 'Upper'),
 	            onChange: this.handleChangeInput.bind(this, 'upper'),
 	            value: this.props.upperBound })
 	        )
@@ -29984,8 +30000,6 @@
 
 	  return NumberRanges;
 	})(_react2['default'].Component);
-
-	;
 
 	NumberRanges.propTypes = {
 	  editableLower: _react2['default'].PropTypes.bool,
@@ -30032,7 +30046,7 @@
 
 
 	// module
-	exports.push([module.id, ".rangeFilter {\n  -webkit-touch-callout: none;\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n  user-select: none;\n  width: 380px;\n  -webkit-font-smoothing: antialiased;\n  font-family: Helvetica, sans-serif; }\n  .rangeFilter h3 {\n    margin: 4px 0; }\n  .rangeFilter .inputContainer {\n    display: block;\n    position: relative; }\n    .rangeFilter .inputContainer .inputPresenter {\n      display: block;\n      cursor: pointer;\n      height: 50px;\n      border: 1px solid #ccc;\n      background-color: #3F4751; }\n      .rangeFilter .inputContainer .inputPresenter .btn-toggle {\n        cursor: pointer;\n        position: absolute;\n        right: 11px;\n        top: 17px;\n        text-align: center;\n        color: white;\n        -webkit-transition: 0.2s all;\n                transition: 0.2s all; }\n        .rangeFilter .inputContainer .inputPresenter .btn-toggle:hover {\n          color: #3B99FC;\n          text-shadow: 0px 1px #000; }\n    .rangeFilter .inputContainer .boundsPresenter {\n      color: #DEBB1E;\n      line-height: 50px;\n      padding-left: 10px;\n      font-size: 1.3rem; }\n      .rangeFilter .inputContainer .boundsPresenter .btn-delete {\n        cursor: pointer;\n        margin-left: 10px;\n        border: none;\n        outline: none;\n        background-color: #3F4751;\n        color: #DEBB1E;\n        font-size: 1rem;\n        font-weight: 900; }\n    .rangeFilter .inputContainer .rangeCols {\n      position: relative;\n      padding: 10px;\n      margin-top: 20px;\n      margin-left: 10px;\n      border: none;\n      background-color: #4D5967;\n      color: white;\n      font-size: 0.9rem; }\n      .rangeFilter .inputContainer .rangeCols .triangle {\n        position: absolute;\n        left: 0;\n        top: -15px;\n        width: 0;\n        height: 0;\n        border-style: solid;\n        border-width: 15px 0 0 15px;\n        border-color: transparent transparent transparent #4D5967; }\n      .rangeFilter .inputContainer .rangeCols .rangeCol {\n        position: relative;\n        display: inline-block;\n        width: 46%; }\n        .rangeFilter .inputContainer .rangeCols .rangeCol .checkbox-group {\n          cursor: pointer; }\n        .rangeFilter .inputContainer .rangeCols .rangeCol input[type=\"checkbox\"] {\n          margin-right: 10px; }\n        .rangeFilter .inputContainer .rangeCols .rangeCol input[type=\"number\"] {\n          display: block;\n          width: 90%;\n          padding: 5%;\n          margin-top: 5px;\n          border: 1px solid #3F4751;\n          background-color: #3F4751;\n          color: white;\n          font-size: 1.1rem;\n          -webkit-transition: 0.4s border-color;\n                  transition: 0.4s border-color; }\n          .rangeFilter .inputContainer .rangeCols .rangeCol input[type=\"number\"]:disabled {\n            cursor: not-allowed;\n            background-color: #55606e; }\n          .rangeFilter .inputContainer .rangeCols .rangeCol input[type=\"number\"]:focus {\n            outline: none;\n            border-color: #5B7486; }\n      .rangeFilter .inputContainer .rangeCols .warning {\n        display: inline-block;\n        height: 0;\n        width: 8%;\n        color: #DEBB1E;\n        text-align: center;\n        bottom: 10px; }\n", ""]);
+	exports.push([module.id, ".rangeFilter {\n  -webkit-touch-callout: none;\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n  user-select: none;\n  width: 380px;\n  -webkit-font-smoothing: antialiased;\n  font-family: Helvetica, sans-serif; }\n  .rangeFilter h3 {\n    margin: 4px 0; }\n  .rangeFilter .inputContainer {\n    display: block;\n    position: relative; }\n    .rangeFilter .inputContainer .inputPresenter {\n      display: block;\n      cursor: pointer;\n      height: 50px;\n      border: 1px solid #ccc;\n      background-color: #3F4751; }\n      .rangeFilter .inputContainer .inputPresenter .btn-toggle {\n        cursor: pointer;\n        position: absolute;\n        right: 11px;\n        top: 17px;\n        text-align: center;\n        color: white;\n        -webkit-transition: 0.2s all;\n                transition: 0.2s all; }\n        .rangeFilter .inputContainer .inputPresenter .btn-toggle:hover {\n          color: #3B99FC;\n          text-shadow: 0px 1px #000; }\n    .rangeFilter .inputContainer .boundsPresenter {\n      color: #DEBB1E;\n      line-height: 50px;\n      padding-left: 10px;\n      font-size: 1.3rem; }\n      .rangeFilter .inputContainer .boundsPresenter .btn-delete {\n        cursor: pointer;\n        margin-left: 10px;\n        border: none;\n        outline: none;\n        background-color: #3F4751;\n        color: #DEBB1E;\n        font-size: 1rem;\n        font-weight: 900; }\n    .rangeFilter .inputContainer .rangeCols {\n      position: relative;\n      padding: 10px;\n      margin-top: 20px;\n      margin-left: 10px;\n      border: none;\n      background-color: #4D5967;\n      color: white;\n      font-size: 0.9rem; }\n      .rangeFilter .inputContainer .rangeCols .triangle {\n        position: absolute;\n        left: 0;\n        top: -13px;\n        width: 0;\n        height: 0;\n        border-style: solid;\n        border-width: 15px 0 0 15px;\n        border-color: transparent transparent transparent #4D5967; }\n      .rangeFilter .inputContainer .rangeCols .rangeCol {\n        position: relative;\n        display: inline-block;\n        width: 46%; }\n        .rangeFilter .inputContainer .rangeCols .rangeCol .checkbox-group {\n          cursor: pointer; }\n        .rangeFilter .inputContainer .rangeCols .rangeCol input[type=\"checkbox\"] {\n          margin-right: 10px; }\n        .rangeFilter .inputContainer .rangeCols .rangeCol input[type=\"number\"] {\n          display: block;\n          width: 90%;\n          padding: 5%;\n          margin-top: 5px;\n          border: 1px solid #3F4751;\n          background-color: #3F4751;\n          color: white;\n          font-size: 1.1rem;\n          -webkit-transition: 0.4s border-color;\n                  transition: 0.4s border-color; }\n          .rangeFilter .inputContainer .rangeCols .rangeCol input[type=\"number\"]:disabled {\n            cursor: not-allowed;\n            background-color: #55606e; }\n          .rangeFilter .inputContainer .rangeCols .rangeCol input[type=\"number\"]:focus {\n            outline: none;\n            border-color: #5B7486; }\n      .rangeFilter .inputContainer .rangeCols .warning {\n        display: inline-block;\n        height: 0;\n        width: 8%;\n        color: #DEBB1E;\n        text-align: center;\n        bottom: 10px; }\n", ""]);
 
 	// exports
 

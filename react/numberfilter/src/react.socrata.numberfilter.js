@@ -21,7 +21,7 @@ class SocrataNumberfilter extends React.Component {
     };
 
     var self = this;
-    $('html').click(function(e){
+    $('html').click(function(e) {
       if ($(e.target).parents('.rangeFilter').length == 0) {
         self.state.editing && self.setState({'editing': false});
       }
@@ -78,21 +78,21 @@ class SocrataNumberfilter extends React.Component {
   renderRanges() {
     if (this.state.lowerBound && !this.state.upperBound) {
       return (<div className="boundsPresenter">
-        { '$' + this.state.lowerBound + ' < ?' }
+        { 'No less than ' + '$' + this.state.lowerBound }
         <button className="btn-delete" onClick={ this.deleteBound.bind(this, 'lower') }>
           <i className="fa fa-times"></i>
         </button>
       </div>);
     } else if (!this.state.lowerBound && this.state.upperBound) {
       return (<div className="boundsPresenter">
-        { '? < $' + this.state.upperBound }
+        { 'No more than ' + '$' + this.state.upperBound }
         <button className="btn-delete" onClick={ this.deleteBound.bind(this, 'upper') }>
           <i className="fa fa-times"></i>
         </button>
       </div>);
     } else if (this.state.lowerBound && this.state.upperBound) {
       return (<div className="boundsPresenter">
-        { '$' + this.state.lowerBound + ' < ? < $' + this.state.upperBound }
+        { '$' + this.state.lowerBound + ' to $' + this.state.upperBound }
         <button className="btn-delete" onClick={ this.deleteBound.bind(this, 'all') }>
           <i className="fa fa-times"></i>
         </button>
@@ -107,6 +107,12 @@ class SocrataNumberfilter extends React.Component {
     this.setState(obj);
   }
 
+  changeInputState(whichBound) {
+    var obj = {};
+    obj['editable' + whichBound] = true;
+    this.setState(obj);
+  }
+
   renderEdit() {
     if (this.state.editing) {
       return <NumberRanges
@@ -116,6 +122,7 @@ class SocrataNumberfilter extends React.Component {
                 editableUpper={ this.state.editableUpper }
                 upperBound={ this.state.upperBound }
                 onChangeEditableToggle={ this.handleEditableToggle.bind(this) }
+                onChangeEditableInput={ this.changeInputState.bind(this) }
                 onBoundChange={ this.handleChangeInput.bind(this) } />;
     }
     return null;
@@ -137,6 +144,6 @@ class SocrataNumberfilter extends React.Component {
     );
   }
 
-};
+}
 
 export default SocrataNumberfilter;

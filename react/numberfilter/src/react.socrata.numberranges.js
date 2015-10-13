@@ -1,6 +1,6 @@
 import React from 'react';
 
-class NumberRanges extends React.Component{
+class NumberRanges extends React.Component {
 
   constructor(props) {
     super(props);
@@ -12,7 +12,7 @@ class NumberRanges extends React.Component{
     this.warnBound = this.warnBound.bind(this);
   }
 
-  componentDidUpdate(){
+  componentDidUpdate() {
     if (this.state.editingRefName) {
       React.findDOMNode(this.refs[this.state.editingRefName]).focus();
     }
@@ -27,7 +27,7 @@ class NumberRanges extends React.Component{
       if (this.state.editingRefName == whichBound) {
         this.setState({ editingRefName: null });
       }
-    };
+    }
 
   }
 
@@ -36,13 +36,20 @@ class NumberRanges extends React.Component{
     this.setState({ editingRefName: whichBound });
   }
 
-  warnBound(whichBound) {
+  warnBound() {
     // check if lowerbound is greater than upperbound
     if (this.props.upperBound != null && this.props.lowerBound != null &&
-      parseFloat(this.props.lowerBound) > parseFloat(this.props.upperBound)) {
+      parseFloat(this.props.lowerBound) >= parseFloat(this.props.upperBound)) {
       return <i className="fa fa-exclamation-triangle"></i>;
     }
     return ' ';
+  }
+
+  handleInputClick(whichBound) {
+    this.props.onChangeEditableInput(whichBound);
+
+    var refName = whichBound.toLowerCase();
+    this.setState({ editingRefName: refName });
   }
 
   render() {
@@ -59,6 +66,7 @@ class NumberRanges extends React.Component{
           <input type="number" className="rangeColNumInput" pattern="[0-9]*"
                   disabled={ !this.props.editableLower }
                   ref="lower"
+                  onClick={ this.handleInputClick.bind(this, 'Lower') }
                   onChange={ this.handleChangeInput.bind(this, 'lower') }
                   value={ this.props.lowerBound }/>
         </div>
@@ -75,6 +83,7 @@ class NumberRanges extends React.Component{
           <input type="number" className="rangeColNumInput" pattern="[0-9]*"
                   disabled={ !this.props.editableUpper }
                   ref="upper"
+                  onClick={ this.handleInputClick.bind(this, 'Upper') }
                   onChange={ this.handleChangeInput.bind(this, 'upper') }
                   value={ this.props.upperBound }/>
         </div>
@@ -82,7 +91,7 @@ class NumberRanges extends React.Component{
     );
   }
 
-};
+}
 
 NumberRanges.propTypes = {
   editableLower: React.PropTypes.bool,

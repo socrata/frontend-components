@@ -1,7 +1,7 @@
 // DatePicker styles
 
 .day-picker {
-  width: 280px;
+  width: 152px;
   float: left;
   label {
     margin-left: 20px;
@@ -15,21 +15,79 @@
   height: 40px;
   position: relative;
 
-  h3 {
+  > h4 {
+    margin: 10px 0;
     text-indent: 10px;
+    text-transform: capitalize;
   }
 
   .filter-dropdown {
     display: none;
-    width: 100%;
-    background-color: #fff;
+    width: 194px;
+    background-color: #F3F3F3;
     position: absolute;
     border: 1px solid #666;
     top: 45px;
+    padding: 15px 20px;
 
+    &.between {
+      width: 390px;
+    }
+
+    .filter-select {
+      float: left;
+      width: 100px;
+      border: 1px solid;
+      clear: both;
+      margin-right: 100%;
+      margin-bottom: 10px;
+    }
+
+    .form-control {
+      height: 26px;
+      background-color: transparent;
+      border: none;
+      box-shadow: none;
+      -webkit-box-shadow: none;
+    }
+
+    .filter-actions {
+      float: left;
+      width: 100%;
+
+      .fa {
+        color: #CF6666;
+        margin-right: 3px;
+      }
+
+      > a {
+        float: right;
+        border-radius: 0;
+      }
+
+      > p {
+        float: left;
+        font-size: 10px;
+        font-style: italic;
+      }
+    }
+  }
+
+  .overlay {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: none;
   }
   
   &.expand {
+    .overlay {
+      display: block;
+    }
     .filter-dropdown {
       display: block;
     }
@@ -61,5 +119,30 @@
       display: block;
       margin: 10px;
     }
+  }
+
+  .filter-select {
+    float: left;
+    width: 100%;
+  }
+
+  .separator {
+    text-align: center;
+    width: 40px;
+    height: 200px;
+    display: table;
+    float: left;
+
+    span {
+      vertical-align:middle;
+      display: table-cell;
+    }
+  }
+
+  .dateInput {
+    text-align: center;
+    width: 95px;
+    padding: 4px;
+    border: 1px solid #A7A7A7;
   }
 }

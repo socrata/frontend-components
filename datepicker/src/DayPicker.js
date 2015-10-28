@@ -1,5 +1,6 @@
 import React from 'react';
 import DayPicker from 'react-day-picker';
+import moment from 'moment';
 import './DayPicker.scss';
 
 class MonthCalendar extends React.Component {
@@ -7,32 +8,42 @@ class MonthCalendar extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      selectedDay: null,
-      disabled: !this.props.disable
+      selectedDay: this.props.initialDate || new Date(),
+      initialMonth: this.props.initialDate,
+      value: moment(this.props.initialDate).format('L')
     };
   }
 
   handleDayClick(e, day) {
-    if (this.state.selectedDay && day.toLocaleDateString() === this.state.selectedDay.toLocaleDateString()) {
-      day = null;
+    this.setState({
+      selectedDay: day,
+      value: moment(day).format('L')
+    }, this.updateParent);
+  }
+
+  handleInputChange(e) {
+    var {value} = e.target;
+    var month = this.state.selectedDay;
+    var validDate = moment(value, 'L', true).isValid();
+    if (validDate) {
+      month = moment(value, 'L').toDate();
     }
+
     this.setState({
-      selectedDay: day
-    });
-    this.resetParent(day);
+      selectedDay: month,
+      value: value
+    }, this.showCurrentDate);
   }
 
-  handleSwitchChange(e) {
-    this.setState({
-      selectedDay: null,
-      disabled: e.target.checked
-    });
-    this.resetParent(null);
+  showCurrentDate() {
+    this.refs.daypicker.showMonth(this.state.selectedDay);
+    this.updateParent();
   }
 
-  resetParent(day) {
-    if (this.props.handleChange) {
-      this.props.handleChange(day);
+  updateParent() {
+    var date = moment(this.state.selectedDay).format('L');
+    if (this.props.handleChange && moment(date).isValid()) {
+      this.props.handleChange(date);
     }
   }
 
@@ -48,38 +59,29 @@ class MonthCalendar extends React.Component {
 
     if (selectedDay) {
       modifiers = {
-        'selected': (day) => this.isSameDay(selectedDay, day),
-        'disabled': () => !this.state.disabled
+        'selected': (day) => this.isSameDay(selectedDay, day)
       };
-    } else {
-      modifiers = {
-        'disabled': () => !this.state.disabled
-      };
-    }
-
-    var switcher;
-    if (this.props.switcher) {
-      switcher = (
-        <label>
-          <input
-            type='checkbox'
-            ref='switcher'
-            checked={this.state.disabled}
-            onChange={this.handleSwitchChange.bind(this)} />
-          {this.props.switchLabel}
-        </label>
-      );
     }
 
     return (
-        <div className="day-picker">
-          {switcher}
-          <DayPicker
-            numberOfMonths={this.props.numberOfMonths}
-            modifiers={modifiers}
-            onDayClick={this.handleDayClick.bind(this)}
-          />
-        </div>
+      <div className="day-picker">
+        <DayPicker
+          ref="daypicker"
+          initialMonth={this.state.initialMonth}
+          numberOfMonths={this.props.numberOfMonths}
+          modifiers={modifiers}
+          onDayClick={this.handleDayClick.bind(this)}
+          enableOutsideDays={true}
+        />
+        <input
+          ref="input"
+          type="text"
+          className={'dateInput'}
+          value={this.state.value}
+          placeholder="MM/DD/YYYY"
+          onChange={this.handleInputChange.bind(this)}
+           />
+      </div>
     );
   }
 }

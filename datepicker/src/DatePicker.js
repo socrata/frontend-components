@@ -1,4 +1,5 @@
 import React from 'react';
+import moment from 'moment';
 import DayPicker from './DayPicker.js';
 import './DatePicker.scss';
 
@@ -6,8 +7,8 @@ class DatePicker extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      firstCal: null,
-      secondCal: null,
+      firstCal: moment(this.setDate()).format('L'),
+      secondCal: moment(this.setDate(2)).format('L'),
       expand: false,
       pickerType: 'between',
       filterLabel: 'All'
@@ -65,39 +66,41 @@ class DatePicker extends React.Component {
   setDate(month) {
     var today = new Date();
     var currentMonth = today.getMonth();
+
     today.setMonth(currentMonth + month || currentMonth + 0);
     return today;
   }
 
   render() {
     var showError;
-    var disableButton;
+    var disableApplyButton;
+    var classSet = React.addons.classSet;
+
     if (this.state.pickerType === 'between' && this.state.secondCal && this.state.firstCal) {
       if (this.state.firstCal <= this.state.secondCal) {
-        disableButton = false;
+        disableApplyButton = false;
         showError = false;
       } else {
-        disableButton = true;
+        disableApplyButton = true;
         showError = true;
       }
-    } else if (this.state.pickerType !== 'between' && this.state.firstCal){
-      disableButton = false;
+    } else if (this.state.pickerType !== 'between' && this.state.firstCal) {
+      disableApplyButton = false;
     } else {
-      disableButton = true;
+      disableApplyButton = true;
     }
 
-    var cx = React.addons.classSet;
-    var classes = cx({
+    var classes = classSet({
       'filter-dropdown-wrapper': true,
       'expand': this.state.expand
     });
 
-    var dropdownClasses = cx({
+    var dropdownClasses = classSet({
       'filter-dropdown': true,
       'between': this.state.pickerType === 'between'
     });
 
-    var errorClasses = cx({
+    var errorClasses = classSet({
       'hidden': !showError
     });
 
@@ -109,7 +112,7 @@ class DatePicker extends React.Component {
             <span>to</span>
           </div>
           <DayPicker
-            initialDate={this.setDate(2)}
+            initialDate={moment(this.state.secondCal, 'L').toDate()}
             numberOfMonths={1}
             handleChange={this.handleSecondCalChange.bind(this)} />
         </div>
@@ -134,7 +137,7 @@ class DatePicker extends React.Component {
           </div>
 
           <DayPicker
-            initialDate={this.setDate()}
+            initialDate={moment(this.state.firstCal, 'L').toDate()}
             numberOfMonths={1}
             handleChange={this.handleFirstCalChange.bind(this)} />
           {rangeDate}
@@ -143,11 +146,11 @@ class DatePicker extends React.Component {
             <p className={errorClasses}>
               <i className="fa fa-exclamation-triangle">
               </i>
-              <span>The start date cannot be later <br></br>
+              <span>The start date cannot be later <br />
               than the end date</span>
             </p>
             <a className="btn btn-primary"
-              disabled={disableButton}
+              disabled={disableApplyButton}
               onClick={this.handleApplyClick.bind(this)}>Apply</a>
             <a className="btn btn-link"
               onClick={this.handleCancelClick.bind(this)}>Cancel</a>

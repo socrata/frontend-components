@@ -54,13 +54,14 @@
     .filter-actions {
       float: left;
       width: 100%;
+      margin-top: 15px;
 
       .fa {
         color: #CF6666;
         margin-right: 3px;
       }
 
-      > a {
+      > a, button {
         float: right;
         border-radius: 0;
       }

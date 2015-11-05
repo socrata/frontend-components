@@ -72,19 +72,22 @@ class DatePicker extends React.Component {
   }
 
   render() {
-    var showError;
+    var showError = true;
     var disableApplyButton;
     var classSet = React.addons.classSet;
-
-    if (this.state.pickerType === 'between' && this.state.secondCal && this.state.firstCal) {
-      if (this.state.firstCal <= this.state.secondCal) {
+    var pickerType = this.state.pickerType;
+    var firstCal = moment(this.state.firstCal, 'L').toDate();
+    var secondCal = moment(this.state.secondCal, 'L').toDate();
+    // debugger
+    if (pickerType === 'between' && secondCal && firstCal) {
+      if (firstCal <= secondCal) {
         disableApplyButton = false;
-        showError = false;
+        showError = true;
       } else {
         disableApplyButton = true;
-        showError = true;
+        showError = false;
       }
-    } else if (this.state.pickerType !== 'between' && this.state.firstCal) {
+    } else if (pickerType !== 'between' && firstCal) {
       disableApplyButton = false;
     } else {
       disableApplyButton = true;
@@ -101,7 +104,7 @@ class DatePicker extends React.Component {
     });
 
     var errorClasses = classSet({
-      'hidden': !showError
+      'hidden': showError
     });
 
     var rangeDate;
@@ -149,9 +152,9 @@ class DatePicker extends React.Component {
               <span>The start date cannot be later <br />
               than the end date</span>
             </p>
-            <a className="btn btn-primary"
+            <button className="btn btn-primary"
               disabled={disableApplyButton}
-              onClick={this.handleApplyClick.bind(this)}>Apply</a>
+              onClick={this.handleApplyClick.bind(this)}>Apply</button>
             <a className="btn btn-link"
               onClick={this.handleCancelClick.bind(this)}>Cancel</a>
           </div>

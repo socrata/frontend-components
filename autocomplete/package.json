@@ -1,0 +1,18 @@
+{
+  "name": "react.socrata.autocomplete",
+  "devDependencies": {
+    "autoprefixer-loader": "^3.1.0",
+    "babel-core": "^5.8.23",
+    "babel-loader": "^5.3.2",
+    "css-loader": "^0.18.0",
+    "jquery": "^2.1.4",
+    "node-sass": "^3.3.2",
+    "phantomjs": "^1.9.17",
+    "react": "^0.13.3",
+    "react-typeahead-component": "^0.8.0",
+    "sass-loader": "^2.0.1",
+    "style-loader": "^0.12.3",
+    "webpack": "^1.12.0"
+  },
+  "main": "./react.socrata.autocomplete.js"
+}

@@ -1,0 +1,5 @@
+{
+  "name": "SocrataAutocomplete",
+  "version": "0.0.1",
+  "main": "./react.socrata.autocomplete.js"
+}
